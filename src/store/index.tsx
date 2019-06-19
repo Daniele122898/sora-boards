@@ -2,7 +2,7 @@ export interface ApplicationState {
     allWaifus: Waifu[];
     userWaifus: Map<string, Waifu[]>;
     globalLeader: User[];
-    leaderboards: Map<string, User[]>;
+    leaderboards: Map<string, Leaderboard>;
 }
 
 export interface Waifu {
@@ -10,6 +10,17 @@ export interface Waifu {
     imageUrl: string;
     rarity: number;
     id: string;
+}
+
+export interface Leaderboard {
+    users: User[];
+    roleRewards: RoleReward[];
+}
+
+export interface RoleReward {
+    levelReq: number;
+    color: string;
+    name: string;
 }
 
 export interface User {
