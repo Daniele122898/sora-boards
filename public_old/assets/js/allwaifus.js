@@ -4,6 +4,8 @@ $(document).ready(function () {
 
 
 function getUserWaifus() {
+    $(".spinner").remove();
+    return;
     //Get user waifu info
     var page = $("#waifuRow");
     page.hide();
