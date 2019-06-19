@@ -6,11 +6,13 @@ export interface ApplicationState {
 export interface WaifuState {
     allWaifus: Waifu[];
     userWaifus: Map<string, Waifu[]>;
+    firstFetch: boolean;
 }
 
 export interface LeaderState {
     globalLeader: User[];
     leaderboards: Map<string, Leaderboard>;
+    firstFetch: boolean;
 }
 
 export interface Waifu {
