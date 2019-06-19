@@ -15,13 +15,5 @@ const jsx = (
     </Provider>
 );
 
-let hasRendered = false;
-const renderApp = () => {
-  if (!hasRendered) {
-    ReactDOM.render(jsx, document.getElementById('app'));
-    hasRendered = true;
-  }
-};
-
-ReactDOM.render(<LoadingPage />, document.getElementById('app'));
+ReactDOM.render(jsx, document.getElementById('app'));
 
