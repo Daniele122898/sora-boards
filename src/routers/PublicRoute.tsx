@@ -1,7 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
-import {ApplicationState} from "../store";
+import { Route } from 'react-router-dom';
 
 const PublicRoute = ({
   isAuthenticated,
@@ -9,16 +7,8 @@ const PublicRoute = ({
   ...rest
 }: any) => (
   <Route {...rest} component={(props: any)=> (
-    !isAuthenticated ? (
       <Component {...props} />
-    ) : (
-      <Redirect to={"/dashboard"} />
-    )
   )}/>
 );
 
-const mapStateToProps = (state: ApplicationState) => ({
-  isAuthenticated: !!state.auth.uid
-});
-
-export default connect(mapStateToProps)(PublicRoute);
+export default PublicRoute;
