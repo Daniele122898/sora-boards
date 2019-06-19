@@ -1,6 +1,14 @@
 export interface ApplicationState {
+    waifuState: WaifuState;
+    leaderState: LeaderState;
+}
+
+export interface WaifuState {
     allWaifus: Waifu[];
     userWaifus: Map<string, Waifu[]>;
+}
+
+export interface LeaderState {
     globalLeader: User[];
     leaderboards: Map<string, Leaderboard>;
 }
