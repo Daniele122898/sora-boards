@@ -1,5 +1,5 @@
 .content-container {
-  max-width: 100rem;
+  max-width: 110rem;
   margin: 0 auto;
   padding: 0 $m-size;
 }
@@ -15,6 +15,7 @@
   }
 }
 
+
 .height-100 {
   height: 100%;
 }
@@ -25,6 +26,21 @@
 
 .center {
   justify-self: center
+}
+
+.split {
+  h1, h2 {
+    font-weight: 500;
+  }
+}
+
+/* Split between stuff <3 */
+
+.split-between-10 {
+  width: 100%;
+  @media (min-width: $desktop-breakpoint) {
+    width: 10%;
+  }
 }
 
 .split-between-20 {
@@ -73,6 +89,13 @@
   width: 100%;
   @media (min-width: $desktop-breakpoint) {
     width: 80%;
+  }
+}
+
+.split-between-90 {
+  width: 100%;
+  @media (min-width: $desktop-breakpoint) {
+    width: 90%;
   }
 }
 
