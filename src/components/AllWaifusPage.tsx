@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 import { connect } from 'react-redux';
 import Card, { getRarityStringFromInt } from './Card';
 import PageHeader from './PageHeader';
@@ -8,6 +8,7 @@ import { ApplicationState, Waifu } from '../store/index';
 import { AnyThunkDispatch } from '../types/index';
 import { getAllWaifus, ApiResponse } from '../actions/waifuActions';
 import LoadingPage from './LoadingPage';
+import Pager from './Pager';
 
 interface Props {
   allwaifus: Waifu[];
@@ -40,6 +41,18 @@ class AllWaifusPage extends React.Component<Props> {
     <LoadingPage/>
   );
 
+  waifuMapper = (waifu: Waifu): ReactChild => (
+    <div className="card--float" key={waifu.id}>
+      <Card
+        imageUrl={waifu.imageUrl}
+        name={waifu.name}
+        rarity={getRarityStringFromInt(waifu.rarity)}
+        id={waifu.id}
+        enableIdFooter={true}
+      />
+    </div>
+  );
+
   renderPage = () => (
     <div>
       <PageHeader 
@@ -52,17 +65,11 @@ class AllWaifusPage extends React.Component<Props> {
       >
         <div id="waifu-split" className="split">
             <h1>Waifus</h1>
-            {this.props.allwaifus.map(waifu => (
-              <div className="card--float" key={waifu.id}>
-                <Card
-                  imageUrl={waifu.imageUrl}
-                  name={waifu.name}
-                  rarity={getRarityStringFromInt(waifu.rarity)}
-                  id={waifu.id}
-                  enableIdFooter={true}
-                />
-              </div>
-            ))}
+            <Pager 
+              data={this.props.allwaifus}
+              pageModulo={12}
+              mapper={this.waifuMapper}
+            />
         </div>
 
         <div id="info-split" className="split">
