@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react';
 
-const getRarityStringFromInt = (rarity: Number) => {
+const getRarityStringFromInt = (rarity: Number): string => {
     switch(rarity) {
         case 0: 
             return "Common";
@@ -19,8 +19,8 @@ const getRarityStringFromInt = (rarity: Number) => {
     }
 };
 
-const Card = ({imageUrl, name, rarity, enableIdFooter = false, children}: 
-    { imageUrl: string, name: string, rarity: string, enableIdFooter?: boolean,
+const Card = ({imageUrl, name, rarity, id, enableIdFooter = false, children}: 
+    { imageUrl: string, name: string, rarity: string, id: string, enableIdFooter?: boolean,
     children?: ReactChild }) => (
     <div className="card">
         <div className="crop pop">
@@ -36,7 +36,7 @@ const Card = ({imageUrl, name, rarity, enableIdFooter = false, children}:
         </ul>
         { enableIdFooter && 
             <div className="card-body card-body--id">
-                <p className="card-text"><span className="waifuId">ID: 1</span></p>
+                <p className="card-text"><span className="waifuId">ID: {id}</span></p>
             </div>
         }
         { children }
