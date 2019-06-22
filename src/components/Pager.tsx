@@ -1,4 +1,11 @@
-import React, { ReactChild } from 'react';
+import React, { ReactChild, ChangeEvent } from 'react';
+import { 
+    IoMdArrowDropleft,
+    IoMdArrowDropright,
+    IoMdSkipBackward,
+    IoMdSkipForward,
+    IoMdArrowDroprightCircle
+} from 'react-icons/io'
 
 interface Props {
     data: any[];
@@ -9,6 +16,7 @@ interface Props {
 interface State {
     currentPage: number;
     numPages: number;
+    pageSelection: string;
 }
 
 class Pager extends React.Component<Props, State> {
@@ -18,7 +26,8 @@ class Pager extends React.Component<Props, State> {
 
         this.state = {
             currentPage: 1,
-            numPages: 1
+            pageSelection: '1',
+            numPages: props.data ? Math.ceil(this.props.data.length / this.props.pageModulo) : 1
         }
     }
 
@@ -37,7 +46,7 @@ class Pager extends React.Component<Props, State> {
         }));
     }
 
-    renderPageContent (): ReactChild[] {
+    renderPageContent = (): ReactChild[] => {
         const toRender: ReactChild[] = [];
         const pageStart = (this.state.currentPage-1) * this.props.pageModulo;
         let pageEnd = pageStart + this.props.pageModulo;
@@ -50,6 +59,90 @@ class Pager extends React.Component<Props, State> {
         return toRender;
     }
 
+    skipToFirstPage = () => {
+        this.setState(() => ({
+            currentPage: 1
+        }));
+    }
+
+    skipToLastPage = () => {
+        this.setState((state) => ({
+            currentPage: state.numPages
+        }))
+    }
+
+    goPageBack = () => {
+        if (this.state.currentPage == 1) return;
+        this.setState((state) => ({
+            currentPage: state.currentPage -1
+        }));
+    }
+
+    goPageForward = () => {
+        if (this.state.currentPage == this.state.numPages) return;
+        console.log("going forward");
+        this.setState((state) => ({
+            currentPage: state.currentPage + 1
+        }));
+    }
+
+    goToPage = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const num = Number.parseInt(this.state.pageSelection);
+        if (num == undefined || Number.isNaN(num) || num < 1 || num > this.state.numPages) return;
+        this.setState(()=> ({
+            currentPage: num,
+            pageSelection: num.toString()
+        }));
+    }
+
+    onPageSelectionChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const val = event.target.value.trim();
+        this.setState(() => ({
+            pageSelection: val
+        }));
+    }
+
+    renderPageSelection = (): ReactChild => {
+        return (
+            <form className="form" onSubmit={this.goToPage}>
+                <span>page </span>
+                <input 
+                    type="number" 
+                    value={this.state.pageSelection}
+                    placeholder={this.state.pageSelection}
+                    onChange={this.onPageSelectionChange}
+                    max={this.state.numPages}
+                    min={1}
+                />
+                <span>of <span>{this.state.numPages.toString()}</span></span>
+                <button>
+                    <IoMdArrowDroprightCircle />
+                </button>
+            </form>
+        )
+    }
+
+    renderPagerFooter = (): ReactChild => {
+        return (
+            <div>
+               <button onClick={this.skipToFirstPage} >
+                    <IoMdSkipBackward/>
+                </button>
+                <button onClick={this.goPageBack}>
+                    <IoMdArrowDropleft/>
+                </button>
+                {this.renderPageSelection()}
+                <button onClick={this.goPageForward}>
+                    <IoMdArrowDropright/>
+                </button> 
+                <button onClick={this.skipToLastPage}>
+                    <IoMdSkipForward/>
+                </button> 
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
@@ -57,6 +150,7 @@ class Pager extends React.Component<Props, State> {
                     this.renderPageContent()
                 )
                 }
+                { this.renderPagerFooter() }
             </div>
         )
     }
