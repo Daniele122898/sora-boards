@@ -20,6 +20,7 @@ export interface Waifu {
     imageUrl: string;
     rarity: number;
     id: string;
+    count?: number;
 }
 
 export interface Leaderboard {
