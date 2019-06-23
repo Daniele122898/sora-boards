@@ -1,14 +1,16 @@
 import React, { ReactChild } from 'react';
 import { connect } from 'react-redux';
-import Card, { getRarityStringFromInt } from './Card';
-import PageHeader from './PageHeader';
-import { SORA_IMG } from '../constants/index';
-import SplitScreen from './SplitScreen';
-import { ApplicationState, Waifu } from '../store/index';
-import { AnyThunkDispatch } from '../types/index';
-import { getAllWaifus, ApiResponse } from '../actions/waifuActions';
+import Card, { getRarityStringFromInt } from '../Card';
+import PageHeader from '../PageHeader';
+import { SORA_IMG } from '../../constants/index';
+import SplitScreen from '../SplitScreen';
+import { ApplicationState, Waifu } from '../../store/index';
+import { AnyThunkDispatch } from '../../types/index';
+import { getAllWaifus, ApiResponse } from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
-import Pager from './Pager';
+import Pager from '../Pager';
+import Banner from '../Banner';
+import WaifuList from '../WaifuList';
 
 interface Props {
   allwaifus: Waifu[];
@@ -16,7 +18,20 @@ interface Props {
   startGetAllWaifus(): any;
 }
 
-class AllWaifusPage extends React.Component<Props> {
+interface State {
+  error: string;
+}
+
+class AllWaifusPage extends React.Component<Props, State> {
+
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      error: ''
+    }
+    
+  }
   
   componentWillMount() {
     // check if we already fetched. if not then we fetch
@@ -25,15 +40,28 @@ class AllWaifusPage extends React.Component<Props> {
     this.props.startGetAllWaifus().then((resp: ApiResponse) => {
       if (resp.error == undefined) return;
       // else handle error. Because otherwise it will just load lul
+      this.setState(()=> ({
+        error: resp.error ? resp.error : ''
+      }));
     });
   }
+
+  renderErrorMessage = (): ReactChild => (
+    <Banner
+      red={true}
+    >
+      <p className="red-banner__text">{this.state.error}</p>
+    </Banner>
+  )
   
   renderConditionally = () => {
-    if (this.props.allwaifus == undefined || 
+    if (this.state.error) {
+      return this.renderPage(true);
+    } else if (this.props.allwaifus == undefined || 
       (this.props.allwaifus.length == 0 && !this.props.firstFetch)) {
       return this.renderLoader();
     } else {
-      return this.renderPage();
+      return this.renderPage(false);
     }
   }
 
@@ -53,29 +81,20 @@ class AllWaifusPage extends React.Component<Props> {
     </div>
   );
 
-  renderPage = () => (
+  renderPage = (error = false) => (
     <div>
       <PageHeader 
         upperTitle="All available" 
         lowerTitle="Waifus"
         imageUrl={SORA_IMG} 
       />
-      <SplitScreen
-        splitFirst={80}
-      >
-        <div id="waifu-split" className="split">
-            <h1>Waifus</h1>
-            <Pager 
-              data={this.props.allwaifus}
-              pageModulo={12}
-              mapper={this.waifuMapper}
-            />
-        </div>
-
-        <div id="info-split" className="split">
-          <h1>Help</h1>
-        </div>
-      </SplitScreen>
+      {
+        error ? this.renderErrorMessage() : 
+          <WaifuList
+            waifus={this.props.allwaifus}
+            waifuMapper={this.waifuMapper}
+          />
+      }
     </div>
   );
 

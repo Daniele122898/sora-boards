@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { GET_ALL_WAIFUS } from '../constants';
 import { Waifu } from '../store/index';
 import { ThunkResult } from '../types/index';
@@ -34,7 +34,15 @@ export interface ApiResponse {
 
 export const getAllWaifus = (): ThunkResult<Promise<ApiResponse>> => {
     return async (dispatch): Promise<ApiResponse> => {
-        const resp = await axios.get('/api/getAllWaifus');
+        let resp: AxiosResponse<any>;
+
+        try {
+            resp = await axios.get('/api/getAllWaifus');
+        } catch (error) {
+            return {
+                error: "Couldn't reach Sora Api"
+            }
+        }
 
         if (resp == undefined || resp.data == undefined) {
             return {
@@ -47,8 +55,6 @@ export const getAllWaifus = (): ThunkResult<Promise<ApiResponse>> => {
                 error: resp.data != undefined ? resp.data: "Couldn't reach Sora Api"
             }
         }
-
-        console.log(resp.data);
 
         batch(() => {
             dispatch(setFirstFetch(true));

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import NotFoundPage from '../components/NotFoundPage';
-import AllWaifusPage from '../components/AllWaifusPage';
+import NotFoundPage from '../components/Pages/NotFoundPage';
+import AllWaifusPage from '../components/Pages/AllWaifusPage';
 import PublicRoute from './PublicRoute';
-import HomePage from '../components/HomePage';
+import HomePage from '../components/Pages/HomePage';
 
 export const history = createBrowserHistory();
 
