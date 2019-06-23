@@ -31,7 +31,13 @@ class Pager extends React.Component<Props, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        // check for page change
+        if (prevState.currentPage != this.state.currentPage) {
+            this.setState((state)=> ({
+                pageSelection: state.currentPage.toString()
+            }))
+        }
         // nothing changed here
         if (prevProps.data && 
             this.props.data && 
@@ -105,8 +111,8 @@ class Pager extends React.Component<Props, State> {
 
     renderPageSelection = (): ReactChild => {
         return (
-            <form className="form" onSubmit={this.goToPage}>
-                <span>page </span>
+            <form onSubmit={this.goToPage}>
+                <span>page</span>
                 <input 
                     type="number" 
                     value={this.state.pageSelection}
@@ -116,7 +122,7 @@ class Pager extends React.Component<Props, State> {
                     min={1}
                 />
                 <span>of <span>{this.state.numPages.toString()}</span></span>
-                <button>
+                <button className="pager-footer__button">
                     <IoMdArrowDroprightCircle />
                 </button>
             </form>
@@ -125,18 +131,30 @@ class Pager extends React.Component<Props, State> {
 
     renderPagerFooter = (): ReactChild => {
         return (
-            <div>
-               <button onClick={this.skipToFirstPage} >
+            <div className="pager-footer">
+               <button 
+                    className="pager-footer__button" 
+                    onClick={this.skipToFirstPage} 
+                >
                     <IoMdSkipBackward/>
                 </button>
-                <button onClick={this.goPageBack}>
+                <button 
+                    className="pager-footer__button" 
+                    onClick={this.goPageBack}
+                >
                     <IoMdArrowDropleft/>
                 </button>
                 {this.renderPageSelection()}
-                <button onClick={this.goPageForward}>
+                <button 
+                    className="pager-footer__button" 
+                    onClick={this.goPageForward}
+                >
                     <IoMdArrowDropright/>
                 </button> 
-                <button onClick={this.skipToLastPage}>
+                <button 
+                    className="pager-footer__button" 
+                    onClick={this.skipToLastPage}
+                >
                     <IoMdSkipForward/>
                 </button> 
             </div>
@@ -145,12 +163,16 @@ class Pager extends React.Component<Props, State> {
 
     render() {
         return (
-            <div>
-                { this.props.data && (
-                    this.renderPageContent()
-                )
-                }
-                { this.renderPagerFooter() }
+            <div className="pager-container">
+                <div className="pager-content">
+                    { this.props.data && (
+                        this.renderPageContent()
+                    )
+                    }
+                </div>
+                <div className="pager-footer-container">
+                    { this.renderPagerFooter() }
+                </div>
             </div>
         )
     }

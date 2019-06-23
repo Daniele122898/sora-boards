@@ -62,8 +62,8 @@ class Filter extends React.Component<Props, State> {
 
     render() {
         return (
-            <div className="input-group">
-                <div className="input-group__item">
+            <div className="input-group" style={{marginRight: "3.2rem"}}>
+                <div className="input-group__item flex-grow-1">
                     <input 
                         type="text"
                         placeholder={this.props.searchTextPlaceHolder}

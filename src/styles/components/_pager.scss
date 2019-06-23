@@ -1,0 +1,55 @@
+.pager-container {
+    width: 100%;
+}
+
+.pager-content {
+    width: 100%;
+    display: table-row-group;
+}
+
+.pager-footer-container {
+    width: 100%;
+}
+
+.pager-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+    form {
+        text-align: center;
+        display: flex;
+        
+        input {
+            margin: 0 $xs-size;
+            text-align: right;
+        }
+
+    }
+
+}
+
+.pager-footer__button {
+    border: none;
+    border-radius: 3px;
+    background-color: $sora-color;
+    color: white;
+    margin: 0 $xs-size;
+    height: 28px;
+    width: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
