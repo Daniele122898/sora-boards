@@ -32,7 +32,7 @@ class WaifuList extends React.Component<Props, State> {
     }
     
     searchFilter(el: Waifu, search: string) {
-        return (el.name.includes(search));
+        return (el.name.toLowerCase().includes(search.toLowerCase()));
     }
 
     dataReturn = (waifus: Waifu[]) => {
