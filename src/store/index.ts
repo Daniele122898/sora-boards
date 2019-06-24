@@ -5,8 +5,15 @@ export interface ApplicationState {
 
 export interface WaifuState {
     allWaifus: Waifu[];
-    userWaifus: Map<string, Waifu[]>;
+    userWaifus: Map<string, UserWaifuApiResponse>;
     firstFetch: boolean;
+}
+
+export interface UserWaifuApiResponse {
+    success: boolean;
+    username: string;
+    avatarUrl: string;
+    waifus: Waifu[];
 }
 
 export interface LeaderState {

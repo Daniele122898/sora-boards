@@ -5,3 +5,6 @@ export type GET_ALL_WAIFUS = typeof GET_ALL_WAIFUS;
 
 export const SET_FIRST_FETCH = 'SET_FIRST_FETCH';
 export type SET_FIRST_FETCH = typeof SET_FIRST_FETCH;
+
+export const GET_USER_WAIFUS = 'GET_USER_WAIFUS';
+export type GET_USER_WAIFUS = typeof GET_USER_WAIFUS;
