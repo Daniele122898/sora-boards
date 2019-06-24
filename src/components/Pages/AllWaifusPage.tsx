@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import Card, { getRarityStringFromInt } from '../Card';
 import PageHeader from '../PageHeader';
 import { SORA_IMG } from '../../constants/index';
-import SplitScreen from '../SplitScreen';
 import { ApplicationState, Waifu } from '../../store/index';
 import { AnyThunkDispatch } from '../../types/index';
 import { getAllWaifus, ApiResponse } from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
-import Pager from '../Pager';
 import Banner from '../Banner';
 import WaifuList from '../WaifuList';
 
