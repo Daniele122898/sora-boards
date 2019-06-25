@@ -9,6 +9,7 @@ import { getAllWaifus, ApiResponse } from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
 import Banner from '../Banner';
 import WaifuList from '../WaifuList';
+import WaifuImageModal from '../WaifuImageModal';
 
 interface Props {
   allwaifus: Waifu[];
@@ -18,6 +19,8 @@ interface Props {
 
 interface State {
   error: string;
+  modalOpen: boolean;
+  clickedImageUrl: string;
 }
 
 class AllWaifusPage extends React.Component<Props, State> {
@@ -26,7 +29,9 @@ class AllWaifusPage extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      error: ''
+      error: '',
+      modalOpen: false,
+      clickedImageUrl: ''
     }
     
   }
@@ -67,8 +72,16 @@ class AllWaifusPage extends React.Component<Props, State> {
     <LoadingPage/>
   );
 
+  onWaifuClick = (imageUrl: string) => {
+    this.setState(()=>({ modalOpen: true, clickedImageUrl: imageUrl }));
+  }
+
   waifuMapper = (waifu: Waifu): ReactChild => (
-    <div className="card--float" key={waifu.id}>
+    <div 
+      className="card--float" 
+      key={waifu.id} 
+      onClick={() => { this.onWaifuClick(waifu.imageUrl)}}    
+    >
       <Card
         imageUrl={waifu.imageUrl}
         name={waifu.name}
@@ -88,21 +101,35 @@ class AllWaifusPage extends React.Component<Props, State> {
       />
       {
         error ? this.renderErrorMessage() : 
-          <WaifuList
-            waifus={this.props.allwaifus}
-            waifuMapper={this.waifuMapper}
-            infoCardContent={(
-              <p>{"This shows all the Waifus that are available. You can get "+
-                "them by opening WaifuBoxes. "}
-                <strong>{"Each image is clickable to expand since some "+ 
-                  "are cropped weird! "}</strong> 
-                  {"The first row is the Name, the second the "+ 
-                  "Rarity and the last shows the ID of the specific Waifu."}</p>
-          )}
-          />
+          <div>
+            <WaifuList
+              waifus={this.props.allwaifus}
+              waifuMapper={this.waifuMapper}
+              infoCardContent={(
+                <p>{"This shows all the Waifus that are available. You can get "+
+                  "them by opening WaifuBoxes. "}
+                  <strong>{"Each image is clickable to expand since some "+ 
+                    "are cropped weird! "}</strong> 
+                    {"The first row is the Name, the second the "+ 
+                    "Rarity and the last shows the ID of the specific Waifu."}</p>
+              )}
+            />
+            <WaifuImageModal 
+                    modalOpen={this.state.modalOpen}
+                    onModalClose={this.onModalClose}
+                    imageUrl={this.state.clickedImageUrl}
+            />
+          </div>
       }
     </div>
   );
+
+  onModalClose = () => {
+    this.setState(() => ({
+        modalOpen: false,
+        clickedImageUrl: ''
+    }));
+  }
 
   render() {
     return this.renderConditionally();
