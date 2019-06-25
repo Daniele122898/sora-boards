@@ -88,8 +88,8 @@ class UserWaifusPage extends React.Component<Props, State> {
         const user = this.props.userWaifus;
         const data: UserWaifuApiResponse = {
             success: user ? user.success : false,
-            username: user ? user.username : "Unknown",
-            avatarUrl: user ? user.avatarUrl : SORA_IMG,
+            username: user ? (user.username ? user.username : "Unknown") : "Unknown",
+            avatarUrl: user ? (user.avatarUrl ? user.avatarUrl: SORA_IMG) : SORA_IMG,
             waifus: user ? user.waifus : []
         }
         
