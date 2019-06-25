@@ -91,6 +91,15 @@
     padding: 1.25rem;
 }
 
+.info-body {
+    @extend .card-body;
+    padding: 1.9rem;
+
+    p {
+        margin-top: $xs-size;
+    }
+}
+
 .card-body--small-padding {
     padding: 1rem;
 }

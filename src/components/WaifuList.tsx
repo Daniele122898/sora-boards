@@ -3,10 +3,12 @@ import SplitScreen from './SplitScreen';
 import { Waifu } from '../store/index';
 import Pager from './Pager';
 import Filter from './Filter';
+import InfoCard from './InfoCard';
 
 interface Props {
     waifus: Waifu[];
     waifuMapper: (waifu: Waifu) => ReactChild;
+    infoCardContent: React.ReactNode;
 }
 
 interface State {
@@ -76,6 +78,9 @@ class WaifuList extends React.Component<Props, State> {
         
                 <div id="info-split" className="split">
                   <h1>Help</h1>
+                  <InfoCard>
+                   {this.props.infoCardContent}
+                  </InfoCard>
                 </div>
               </SplitScreen>
           );

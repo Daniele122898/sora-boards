@@ -91,6 +91,16 @@ class AllWaifusPage extends React.Component<Props, State> {
           <WaifuList
             waifus={this.props.allwaifus}
             waifuMapper={this.waifuMapper}
+            infoCardContent={(
+              <p>This shows all the Waifus that this User has. 
+                  You can get them by opening WaifuBoxes. 
+                  <strong>Each image is clickable to expand since 
+                  some are cropped weird!</strong> The first row
+                  is the Name, the second the Rarity, 
+                  the third the count (how many of that waifu 
+                  he owns) and the last shows the ID of the specific Waifu.
+              </p>
+          )}
           />
       }
     </div>
