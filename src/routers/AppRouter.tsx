@@ -15,7 +15,7 @@ const AppRouter = () => (
       <Switch>
         <PublicRoute path="/" component={HomePage} exact={true}/>
         <PublicRoute path="/allwaifus" component={AllWaifusPage} exact={true}/>
-        <PublicRoute path="/userwaifus/:userId" component={UserWaifusPage}/>
+        <PublicRoute path="/user/:userId/waifus" component={UserWaifusPage}/>
         <Route component={NotFoundPage} />
       </Switch>
     </div>

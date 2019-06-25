@@ -19,9 +19,9 @@ const getRarityStringFromInt = (rarity: Number): string => {
     }
 };
 
-const Card = ({imageUrl, name, rarity, id, enableIdFooter = false, children}: 
+const Card = ({imageUrl, name, rarity, id, enableIdFooter = false, children, count = 0}: 
     { imageUrl: string, name: string, rarity: string, id: string, enableIdFooter?: boolean,
-    children?: ReactChild }) => (
+    children?: ReactChild, count?: number }) => (
     <div className="card">
         <div className="crop pop">
             <img src={imageUrl ? imageUrl : 
@@ -33,6 +33,9 @@ const Card = ({imageUrl, name, rarity, id, enableIdFooter = false, children}:
         </div>
         <ul className="list-group list-group-flush">
             <li className="list-group-item">{rarity}</li>
+            { count > 0 &&
+                <li className="list-group-item">{count}</li>
+            }
         </ul>
         { enableIdFooter && 
             <div className="card-body card-body--id">
