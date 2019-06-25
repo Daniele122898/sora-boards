@@ -78,6 +78,7 @@ class UserWaifusPage extends React.Component<Props, State> {
             rarity={getRarityStringFromInt(waifu.rarity)}
             id={waifu.id}
             enableIdFooter={true}
+            count={waifu.count}
           />
         </div>
     );

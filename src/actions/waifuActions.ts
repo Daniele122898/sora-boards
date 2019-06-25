@@ -8,7 +8,7 @@ import {
     GET_USER_WAIFUS
 } from '../constants/index';
 
-export type WaifuAction = GetAllWaifus | SetFirstFetch;
+export type WaifuAction = GetAllWaifus | SetFirstFetch | GetUserWaifus;
 
 export interface GetUserWaifus {
     type: GET_USER_WAIFUS;
@@ -54,7 +54,7 @@ export const getUserWaifus = (userId: string): ThunkResult<Promise<ApiResponse>>
         let resp: AxiosResponse<any>;
 
         try {
-            resp = await axios.get('/api/GetUserWaifus/'+userId);
+            resp = await axios.get('/api/getUserWaifus/'+userId);
         } catch (error) {
             return {
                 error: "Couldn't reach Sora Api"

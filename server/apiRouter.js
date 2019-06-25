@@ -16,7 +16,7 @@ router.get('/getAllWaifus', (req,res) => {
     });
 });
 
-router.get('/GetUserWaifus/:userId', (req,res) => {
+router.get('/getUserWaifus/:userId', (req,res) => {
     const userId = req.params.userId;
     axios.get(`${soraApi}/GetUserWaifus/${userId}`)
     .then(r => {

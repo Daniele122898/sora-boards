@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { WaifuState } from "../store";
 import { WaifuAction } from '../actions/waifuActions';
-import { SET_FIRST_FETCH, GET_ALL_WAIFUS } from '../constants/index';
+import { SET_FIRST_FETCH, GET_ALL_WAIFUS, GET_USER_WAIFUS } from '../constants/index';
 
 const WaifuDefaultState: WaifuState = {
     allWaifus: [],
@@ -22,6 +22,12 @@ const reducer: Reducer<WaifuState, WaifuAction> = (state: WaifuState = WaifuDefa
         allWaifus: action.waifus,
         userWaifus: state.userWaifus,
         firstFetch: state.firstFetch
+      }
+    case GET_USER_WAIFUS:
+      return {
+        allWaifus: state.allWaifus,
+        firstFetch: state.firstFetch,
+        userWaifus: state.userWaifus.set(action.userId, action.apiResponse)
       }
     default:
       return state;
