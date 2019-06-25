@@ -10,6 +10,7 @@ import { SORA_IMG } from '../../constants';
 import Banner from '../Banner';
 import WaifuList from '../WaifuList';
 import Card, { getRarityStringFromInt } from '../Card';
+import WaifuImageModal from '../WaifuImageModal';
 
 interface MatchParams {
     userId: string;
@@ -22,6 +23,8 @@ interface Props extends RouteComponentProps<MatchParams>{
 
 interface State {
     error: string;
+    modalOpen: boolean;
+    clickedImageUrl: string;
 }
 
 class UserWaifusPage extends React.Component<Props, State> {
@@ -30,7 +33,9 @@ class UserWaifusPage extends React.Component<Props, State> {
         super(props);
     
         this.state = {
-          error: ''
+          error: '',
+          modalOpen: false,
+          clickedImageUrl: ''
         }
         
       }
@@ -70,8 +75,16 @@ class UserWaifusPage extends React.Component<Props, State> {
         </Banner>
     );
 
+    onWaifuClick = (imageUrl: string) => {
+        this.setState(()=>({ modalOpen: true, clickedImageUrl: imageUrl }));
+    }
+
     waifuMapper = (waifu: Waifu): ReactChild => (
-        <div className="card--float" key={waifu.id}>
+        <div 
+            className="card--float" 
+            key={waifu.id} 
+            onClick={() => { this.onWaifuClick(waifu.imageUrl)}}    
+        >
           <Card
             imageUrl={waifu.imageUrl}
             name={waifu.name}
@@ -108,6 +121,13 @@ class UserWaifusPage extends React.Component<Props, State> {
           );
     }
 
+    onModalClose = () => {
+        this.setState(() => ({
+            modalOpen: false,
+            clickedImageUrl: ''
+        }));
+    }
+
     renderWaifus = (data: UserWaifuApiResponse): ReactChild => (
         data.waifus.length == 0 ? (
             <Banner
@@ -116,20 +136,27 @@ class UserWaifusPage extends React.Component<Props, State> {
                 <p className="red-banner__text">This user does not have any waifus!</p>
             </Banner>
         ) : (
-            <WaifuList
-                waifus={data.waifus}
-                waifuMapper={this.waifuMapper}
-                infoCardContent={(
-                    <p>{"This shows all the Waifus that this User has. "+
-                        "You can get them by opening WaifuBoxes. "}
-                        <strong>{"Each image is clickable to expand since "+
-                        "some are cropped weird! "}</strong>
-                        {"The first row is the Name, the second the Rarity, "+
-                        "the third the count (how many of that waifu " + 
-                        "he owns) and the last shows the ID of the specific Waifu."}
-                    </p>
-                )}
-            />
+            <div>
+                <WaifuList
+                    waifus={data.waifus}
+                    waifuMapper={this.waifuMapper}
+                    infoCardContent={(
+                        <p>{"This shows all the Waifus that this User has. "+
+                            "You can get them by opening WaifuBoxes. "}
+                            <strong>{"Each image is clickable to expand since "+
+                            "some are cropped weird! "}</strong>
+                            {"The first row is the Name, the second the Rarity, "+
+                            "the third the count (how many of that waifu " + 
+                            "he owns) and the last shows the ID of the specific Waifu."}
+                        </p>
+                    )}
+                />
+                <WaifuImageModal 
+                    modalOpen={this.state.modalOpen}
+                    onModalClose={this.onModalClose}
+                    imageUrl={this.state.clickedImageUrl}
+                />
+            </div>
         )
     );
     
