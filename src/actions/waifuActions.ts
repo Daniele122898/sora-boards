@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { batch } from 'react-redux';
 import { Waifu, UserWaifuApiResponse } from '../store/index';
 import { ThunkResult } from '../types/index';
+import { ApiResponse } from './index';
 import { 
     SET_FIRST_FETCH, 
     GET_ALL_WAIFUS,
@@ -41,13 +42,6 @@ export const setFirstFetch = (fetch: boolean): SetFirstFetch => ({
     type: SET_FIRST_FETCH,
     fetch
 });
-
-export interface ApiResponse {
-    error?: string;
-    data?: any;
-}
-
-
 
 export const getUserWaifus = (userId: string): ThunkResult<Promise<ApiResponse>> => {
     return async (dispatch): Promise<ApiResponse> => {

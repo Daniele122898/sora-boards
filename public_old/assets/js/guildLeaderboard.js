@@ -11,6 +11,8 @@ function calculateNeededExp(lvl){
 }
 
 function getLeaderboard() {
+    $(".spinner").remove();
+    return;
     var guildId = getIDfromPath(window.location.pathname);
     var page = $(".list-group");
     page.hide();

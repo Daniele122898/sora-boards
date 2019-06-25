@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { ApplicationState, UserWaifuApiResponse, Waifu } from '../../store';
 import { AnyThunkDispatch } from '../../types';
-import { getUserWaifus, ApiResponse } from '../../actions/waifuActions';
+import { getUserWaifus } from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
 import PageHeader from '../PageHeader';
 import { SORA_IMG } from '../../constants';
@@ -11,6 +11,7 @@ import Banner from '../Banner';
 import WaifuList from '../WaifuList';
 import Card, { getRarityStringFromInt } from '../Card';
 import WaifuImageModal from '../WaifuImageModal';
+import { ApiResponse } from '../../actions/index';
 
 interface MatchParams {
     userId: string;

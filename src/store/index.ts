@@ -48,4 +48,3 @@ export interface User {
     discrim: string;
     exp: number;
 }
-

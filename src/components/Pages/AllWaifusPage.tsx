@@ -5,11 +5,12 @@ import PageHeader from '../PageHeader';
 import { SORA_IMG } from '../../constants/index';
 import { ApplicationState, Waifu } from '../../store/index';
 import { AnyThunkDispatch } from '../../types/index';
-import { getAllWaifus, ApiResponse } from '../../actions/waifuActions';
+import { getAllWaifus } from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
 import Banner from '../Banner';
 import WaifuList from '../WaifuList';
 import WaifuImageModal from '../WaifuImageModal';
+import { ApiResponse } from '../../actions/index';
 
 interface Props {
   allwaifus: Waifu[];
