@@ -18,6 +18,9 @@ func getPort(guildId string)string{
 	port := defPort+getShardId(guildId)
 	return strconv.FormatInt(port, 10)
 }
+
+~~(("249259087496216576" / 4194304) % totalShards);
+const shardId = (BigInt(249259087496216576) >> BigInt(22)) % BigInt(400);
 */
 
 export interface GuildLeaderboardApiResponse {
@@ -43,7 +46,6 @@ export const setGuildLeaderboard = (leaderboard: Leaderboard, guildId: string): 
 
 export const getGuildLeaderboard = (guildId: string): ThunkResult<Promise<ApiResponse>> => {
     return async (dispatch): Promise<ApiResponse> => {
-        
         
         return {};
     }
