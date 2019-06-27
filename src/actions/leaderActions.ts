@@ -72,16 +72,13 @@ export const getGuildLeaderboard = (guildId: string): ThunkResult<Promise<ApiRes
         const data: GuildLeaderboardApiResponse = resp.data;
         const leaderboard: Leaderboard = {
             users: data.ranks,
-            roleRewards: data.roleRewards
+            roleRewards: data.roleRewards,
+            guildImage: data.avatarUrl,
+            guildName: data.guildName
         }
 
         dispatch(setGuildLeaderboard(leaderboard, guildId));
 
-        return {
-            data: {
-                avatarUrl: data.avatarUrl,
-                guildName: data.guildName
-            }
-        };
+        return {};
     }
 }

@@ -11,6 +11,8 @@ function calculateNeededExp(lvl){
 }
 
 function getLeaderboard() {
+    $(".spinner").remove();
+    return;
     //Get Leaderboard info
     var page = $("#afterLoading").find(".container");
     page.hide();

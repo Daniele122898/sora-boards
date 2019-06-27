@@ -20,48 +20,47 @@ const LeaderboardEntry = ({user, key}: {user: User, key: number}) => {
     return (
         <div className="list-group-item" key={key}>
             <div className="leaderboard-entry">
-                <div className="leaderboard__header">
+                <div className="leaderboard__header width-55">
                     <div className="leaderboard__item">
-                        <h3>
+                        <h2>
                             <strong>
                                 #{user.rank}
                             </strong>
-                        </h3>
+                        </h2>
+                    </div>
+                    <div className="leaderboard__item" style={{display: "flex"}}>
+                        <img className="leaderboard__image" src={user.avatarUrl} alt="User Avatar"/>
                     </div>
                     <div className="leaderboard__item">
-                        <img src={user.avatarUrl} alt="User Avatar"/>
-                    </div>
-                    <div className="leaderboard__item">
-                        <h3>
+                        <h2 className="leaderboard-word-break">
                             <span className="leaderboard__username">
                                 {user.name}
                             </span>
                             <small>
                                 #{user.discrim}
                             </small>
-                        </h3>
+                        </h2>
                     </div>
                 </div>
-                <div className="leaderboard__item">
-                    <h5 className="leaderboard__center">
-                        {user.exp} / {neededExp} <strong>EXP</strong>
-                    </h5>
+                <div className="leaderboard__item width-25">
+                    <h4 className="leaderboard__center">
+                        {user.exp} / {Math.round(neededExp)} <strong>EXP</strong>
+                    </h4>
                     <div className="progress">
-                    <div 
-                        className="progress-bar progress-bar-striped progress-bar-sora" 
-                        role="progressbar"
-                        style={{
-                            width: `${percent}%`
-                        }}
+                        <div 
+                            className="progress-bar progress-bar-striped progress-bar-sora" 
+                            role="progressbar"
+                            style={{
+                                width: `${percent}%`
+                            }}
                         >
-
                         </div>
                     </div>
                 </div>  
-                <div className="leaderboard__item">
-                    <h3>
+                <div className="leaderboard__item" style={{width: "18%"}}>
+                    <h2>
                         Level {level}
-                    </h3>
+                    </h2>
                 </div>
             </div>
         </div>

@@ -33,6 +33,8 @@ export interface Waifu {
 export interface Leaderboard {
     users: User[];
     roleRewards: RoleReward[];
+    guildName: string;
+    guildImage: string;
 }
 
 export interface RoleReward {
