@@ -6,6 +6,7 @@ import AllWaifusPage from '../components/Pages/AllWaifusPage';
 import UserWaifusPage from '../components/Pages/UserWaifusPage';
 import PublicRoute from './PublicRoute';
 import HomePage from '../components/Pages/HomePage';
+import GuildLeaderboard from '../components/Pages/GuildLeaderboard';
 
 export const history = createBrowserHistory();
 
@@ -16,6 +17,7 @@ const AppRouter = () => (
         <PublicRoute path="/" component={HomePage} exact={true}/>
         <PublicRoute path="/allwaifus" component={AllWaifusPage} exact={true}/>
         <PublicRoute path="/user/:userId/waifus" component={UserWaifusPage}/>
+        <PublicRoute path="/guild/:guildId/leaderboard" component={GuildLeaderboard}/>
         <Route component={NotFoundPage} />
       </Switch>
     </div>

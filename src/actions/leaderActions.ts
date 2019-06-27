@@ -47,6 +47,41 @@ export const setGuildLeaderboard = (leaderboard: Leaderboard, guildId: string): 
 export const getGuildLeaderboard = (guildId: string): ThunkResult<Promise<ApiResponse>> => {
     return async (dispatch): Promise<ApiResponse> => {
         
-        return {};
+        let resp: AxiosResponse<any>
+
+        try {
+            resp = await axios.get('/api/getLeaderboard/'+guildId);
+        } catch (error) {
+            return {
+                error: "Couldn't reach Sora Api"
+            }
+        }
+
+        if (resp == undefined || resp.data == undefined) {
+            return {
+                error: "Couldn't reach backend... You shouldn't see this website online lol."
+            };
+        }
+
+        if (resp.status !== 200) {
+            return {
+                error: resp.data != undefined ? resp.data: "Couldn't reach Sora Api"
+            }
+        }
+
+        const data: GuildLeaderboardApiResponse = resp.data;
+        const leaderboard: Leaderboard = {
+            users: data.ranks,
+            roleRewards: data.roleRewards
+        }
+
+        dispatch(setGuildLeaderboard(leaderboard, guildId));
+
+        return {
+            data: {
+                avatarUrl: data.avatarUrl,
+                guildName: data.guildName
+            }
+        };
     }
 }
