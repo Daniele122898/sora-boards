@@ -2,13 +2,14 @@ import React, { ReactChild } from 'react';
 import SplitScreen from './SplitScreen';
 import { Waifu } from '../store/index';
 import Pager from './Pager';
-import Filter from './Filter';
+import Filter, { Sorter } from './Filter';
 import InfoCard from './InfoCard';
 
 interface Props {
     waifus: Waifu[];
     waifuMapper: (waifu: Waifu) => ReactChild;
     infoCardContent: React.ReactNode;
+    sorters?: Sorter[];
 }
 
 interface State {
@@ -44,6 +45,7 @@ class WaifuList extends React.Component<Props, State> {
     }
     
     render() {
+        const sorters = this.props.sorters == undefined ? [] : this.props.sorters;
         return (
             <SplitScreen
                 splitFirst={80}
@@ -62,7 +64,18 @@ class WaifuList extends React.Component<Props, State> {
                                 comparer: (first: Waifu, second: Waifu) => {
                                     return first.rarity <= second.rarity ? -1 : 1;
                                 }
-                            }
+                            }, {
+                                name: "ID Descending", 
+                                comparer: (first: Waifu, second: Waifu) => {
+                                    return Number.parseInt(first.id) >= Number.parseInt(second.id) ? -1 : 1;
+                                }
+                            }, {
+                                name: "ID Ascending", 
+                                comparer: (first: Waifu, second: Waifu) => {
+                                    return Number.parseInt(first.id) <= Number.parseInt(second.id) ? -1 : 1;
+                                },
+                            },
+                            ...sorters
                         ]}
                         data={this.props.waifus}
                         searchFilter={this.searchFilter}

@@ -141,6 +141,24 @@ class UserWaifusPage extends React.Component<Props, State> {
                 <WaifuList
                     waifus={data.waifus}
                     waifuMapper={this.waifuMapper}
+                    sorters={[
+                        {
+                            name: "Count Descending", 
+                            comparer: (first: Waifu, second: Waifu) => {
+                                const countFirst = first.count == undefined ? 1 : first.count;
+                                const countSecond = second.count == undefined ? 1 : second.count;
+                                return countFirst >= countSecond ? -1 : 1;
+                            },
+                        },
+                        {
+                            name: "Count Ascending", 
+                            comparer: (first: Waifu, second: Waifu) => {
+                                const countFirst = first.count == undefined ? 1 : first.count;
+                                const countSecond = second.count == undefined ? 1 : second.count;
+                                return countFirst <= countSecond ? -1 : 1;
+                            },
+                        }
+                    ]}
                     infoCardContent={(
                         <p>{"This shows all the Waifus that this User has. "+
                             "You can get them by opening WaifuBoxes. "}
