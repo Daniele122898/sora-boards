@@ -47,7 +47,7 @@ const getStats = () => {
         });
 
         // last changes to the responses
-        result.ping /= numShards;
+        result.ping = Math.round(result.ping / numShards);
         result.messagesReceived = result.messagesReceived +"";
 
         statsCache = result;
