@@ -58,7 +58,7 @@ SyslogIdentifier=sora-boards
 
 # The path to your felix installation.
 # Double-Check that the user you specified above has permission to read/write in this path.
-WorkingDirectory=/home/daniele/sora-requests
+WorkingDirectory=/home/daniele/sora-boards
 
 # The command to launch Felix.
 # You can probably leave this as-is since index.js is always relative to your working dir.
