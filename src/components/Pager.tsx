@@ -86,7 +86,6 @@ class Pager extends React.Component<Props, State> {
 
     goPageForward = () => {
         if (this.state.currentPage == this.state.numPages) return;
-        console.log("going forward");
         this.setState((state) => ({
             currentPage: state.currentPage + 1
         }));
