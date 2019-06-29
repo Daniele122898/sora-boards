@@ -10,6 +10,7 @@ const getApiPort = (port) => `http://localhost:${port}/api/SoraApi`;
 
 let statsCache = {};
 let allWaifusCache = {};
+let globalLeaderCache = [];
 
 const getStats = () => {
     console.log("Populating stats cache...");
@@ -74,6 +75,55 @@ getAllWaifus = () => {
 getAllWaifus();
 const waifuJob = schedule.scheduleJob("*/5 * * * *", getAllWaifus);
 
+// Global leaderboard
+getGlobalLeaderboard = () => {
+    console.log("Populating global leaderboard cache...");
+    const promises = [];
+
+    for (let i=0; i<numShards; i++) {
+        const p = axios.get(`${getApiPort(soraPort+i)}/GetGlobalLeaderboard/`)
+        promises.push(p);
+    }
+
+    const userMap = new Map();
+    const users = [];
+
+    Promise.all(promises)
+    .then(responses => {
+        responses.forEach(({ data }) => {
+            const list = data.ranks;
+            list.forEach((user) => {
+                if (!userMap.has(user.userId)) {
+                    // add it to map and the array
+                    userMap.set(user.userId, true);
+                    users.push(user);
+                }
+            });
+        });
+        // now sort the entire array with unique users
+        users.sort((user1, user2) => {
+            return user1.exp >= user2.exp ? -1 : 1;
+        });
+        // slice it so its only 100 users
+        if (users.length > 100 ) {
+            users = users.slice(0, 100);
+        }
+        // reset the ranks
+        for (let i=0; i<users.length; i++) {
+            users[i].rank = i+1;
+        }
+        // set the cache
+        globalLeaderCache = users;
+
+        console.log("Finished populating global leaderboard cache");
+    })
+    .catch(e => {
+        console.log(e);
+    });
+}
+getGlobalLeaderboard();
+const globalJob = schedule.scheduleJob("*/30 * * * *", getGlobalLeaderboard);
+
 router.get('/getAllWaifus', (req,res) => {
     axios.get(`${soraApi}/GetAllWaifus/`)
     .then(r => {
@@ -113,6 +163,10 @@ router.get('/getLeaderboard/:id', (req,res) => {
 
 router.get('/getSoraStats', (req,res) => {
     res.json(statsCache);
+});
+
+router.get('/getGlobalLeaderboard', (req,res) => {
+    res.json(globalLeaderCache);
 });
 
 

@@ -88,11 +88,13 @@ class StatsPage extends React.Component<Props, State> {
         if (this.props.stats.ping == 0 && !this.state.error) {
             return (<LoadingPage/>)
         } else if (this.state.error) {
-            <Banner
-                red={true}
-            >
-                <p className="red-banner__text">Failed to get stats. Sora might be down!</p>
-            </Banner>
+            return (
+                <Banner
+                    red={true}
+                >
+                    <p className="red-banner__text">Failed to get stats. Sora might be down!</p>
+                </Banner>
+            );
         } else {
             return this.renderStats();
         }

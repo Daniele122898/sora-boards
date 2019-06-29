@@ -8,6 +8,7 @@ import PublicRoute from './PublicRoute';
 import HomePage from '../components/Pages/HomePage';
 import GuildLeaderboard from '../components/Pages/GuildLeaderboard';
 import StatsPage from '../components/Pages/StatsPage';
+import GlobalLeaderboard from '../components/Pages/GlobalLeaderboard';
 
 export const history = createBrowserHistory();
 
@@ -17,6 +18,7 @@ const AppRouter = () => (
       <Switch>
         <PublicRoute path="/" component={HomePage} exact={true}/>
         <PublicRoute path="/allwaifus" component={AllWaifusPage} exact={true}/>
+        <PublicRoute path="/globalleader" component={GlobalLeaderboard} exact={true}/>
         <PublicRoute path="/stats" component={StatsPage} exact={true}/>
         <PublicRoute path="/user/:userId/waifus" component={UserWaifusPage}/>
         <PublicRoute path="/guild/:guildId/leaderboard" component={GuildLeaderboard}/>

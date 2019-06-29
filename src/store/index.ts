@@ -31,7 +31,6 @@ export interface UserWaifuApiResponse {
 export interface LeaderState {
     globalLeader: User[];
     leaderboards: Map<string, Leaderboard>;
-    firstFetch: boolean;
 }
 
 export interface Waifu {
