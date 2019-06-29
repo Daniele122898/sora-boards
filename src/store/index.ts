@@ -1,6 +1,18 @@
 export interface ApplicationState {
     waifuState: WaifuState;
     leaderState: LeaderState;
+    soraStats: SoraStats;
+}
+
+export interface SoraStats {
+     uptime: string; 
+     messagesReceived: string; 
+     commandsExecuted: number; 
+     ping: number; 
+     guildCount: number; 
+     userCount: number; 
+     shardNum: number; 
+     version: string; 
 }
 
 export interface WaifuState {

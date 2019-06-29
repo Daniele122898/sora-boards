@@ -24,6 +24,9 @@ const PageHeader = ({upperTitle, lowerTitle, imageUrl}:
               <Link className="pageheader__nav__link" to="/allwaifus">
                   All Waifus
               </Link>
+              <Link className="pageheader__nav__link" to="/stats">
+                  Stats
+              </Link>
             </div>
           </div>
       </div>

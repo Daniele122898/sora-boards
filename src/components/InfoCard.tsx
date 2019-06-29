@@ -1,7 +1,11 @@
 import React, { FunctionComponent } from 'react';
 
-const InfoCard: FunctionComponent<{}> = ({ children }) => (
-    <div className="card">
+interface Props {
+    style?: React.CSSProperties;
+}
+
+const InfoCard: FunctionComponent<Props> = ({ children, style }) => (
+    <div className="card" style={style}>
         <div className="info-body">
             {children}
         </div>

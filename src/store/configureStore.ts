@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { ApplicationState } from '.';
 import { leaderReducer } from '../reducers/leaderReducer';
 import { waifuReducer } from '../reducers/waifuReducer';
+import { statsReducer } from '../reducers/statsReducer';
 
 declare global {
     interface Window {
@@ -17,7 +18,8 @@ export default () => {
   const store = createStore(
     combineReducers<ApplicationState>({
       leaderState: leaderReducer,
-      waifuState: waifuReducer
+      waifuState: waifuReducer,
+      soraStats: statsReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
     //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
