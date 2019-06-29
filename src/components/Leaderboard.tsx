@@ -18,8 +18,8 @@ const Leaderboard: FunctionComponent<Props>  = ({users, infoCardContent, childre
             <div className="list-group list-group-shadow">
                 {users.map((user, index) => 
                     <LeaderboardEntry
-                        key={index}
                         user={user}
+                        key={index}
                     />
                 )}
             </div>

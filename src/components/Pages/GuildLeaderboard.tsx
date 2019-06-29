@@ -89,8 +89,8 @@ class GuildLeaderboard extends React.Component<Props, State> {
             >
                 <h1>Role Rewards</h1>
                 <InfoCard>
-                    {leaderboard.roleRewards.map(role => (
-                        <div>
+                    {leaderboard.roleRewards.map((role, index) => (
+                        <div key={index}>
                             <h2 style={{margin: "0", fontWeight: 500}}>
                                 Lvl. {role.levelReq}
                             </h2>

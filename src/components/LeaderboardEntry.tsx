@@ -10,7 +10,7 @@ function calculateNeededExp(lvl: number){
 }
 
 
-const LeaderboardEntry = ({user, key}: {user: User, key: number}) => {
+const LeaderboardEntry = ({user}: {user: User}) => {
     const level = calculateLevel(user.exp);
     const neededExp = calculateNeededExp(level+1);
     const neededPrev = calculateNeededExp(level);
@@ -18,7 +18,7 @@ const LeaderboardEntry = ({user, key}: {user: User, key: number}) => {
     const hasOfNeeded = user.exp - neededPrev;
     const percent = 100/totalNeededExp * hasOfNeeded;
     return (
-        <div className="list-group-item" key={key}>
+        <div className="list-group-item">
             <div className="leaderboard-entry">
                 <div className="leaderboard__header width-55">
                     <div className="leaderboard__item">
