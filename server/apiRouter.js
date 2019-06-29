@@ -9,6 +9,7 @@ const soraApi = `http://localhost:${soraPort}/api/SoraApi`;
 const getApiPort = (port) => `http://localhost:${port}/api/SoraApi`;
 
 let statsCache = {};
+let allWaifusCache = {};
 
 const getStats = () => {
     console.log("Populating stats cache...");
@@ -55,11 +56,23 @@ const getStats = () => {
         console.log(e);
     });
 }
-
 getStats();
-
 const statsJob = schedule.scheduleJob("*/5 * * * *", getStats);
 
+// All waifus cache
+getAllWaifus = () => {
+    console.log("Populating all waifus cache...");
+    axios.get(`${soraApi}/GetAllWaifus/`)
+    .then(r => {
+        allWaifusCache = r.data;
+        console.log("Finished populating all waifus cache");
+    })
+    .catch(e => {
+        console.log(e);
+    });
+}
+getAllWaifus();
+const waifuJob = schedule.scheduleJob("*/5 * * * *", getAllWaifus);
 
 router.get('/getAllWaifus', (req,res) => {
     axios.get(`${soraApi}/GetAllWaifus/`)
