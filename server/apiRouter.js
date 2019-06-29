@@ -86,7 +86,7 @@ getGlobalLeaderboard = () => {
     }
 
     const userMap = new Map();
-    const users = [];
+    let users = [];
 
     Promise.all(promises)
     .then(responses => {
