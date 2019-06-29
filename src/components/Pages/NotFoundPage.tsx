@@ -1,10 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PageHeader from '../PageHeader';
+import { SORA_IMG } from '../../constants';
 
 const NotFoundPage = () => (
   <div>
-    <p>404 - Not Found</p>
-    <Link to="/">Go Home</Link>
+    <PageHeader
+        upperTitle="Home of"
+        lowerTitle="Sora"
+        imageUrl={SORA_IMG}
+    />
+    <div className="content-container">
+      <div style={{
+        textAlign: "center",
+        width: "100%"
+      }}>
+        <h1>404</h1>
+        <h3>Page not Found</h3>
+      </div>
+    </div>
   </div>
 );
 
