@@ -1,0 +1,27 @@
+.text-input {
+  border: 1px solid #cacccd;
+  height: 50px;
+  padding: $s-size;
+  font-size: $font-size-large;
+  font-weight: 300;
+  width: 100%;
+  outline: none;
+
+  -webkit-transition: border-color .2s ease-in-out;
+  -moz-transition: border-color .2s ease-in-out;
+  -o-transition: border-color .2s ease-in-out;
+  transition: border-color .2s ease-in-out;
+  
+  &:focus {
+    border-color: $sora-color;
+  }
+}
+
+.select {
+  @extend .text-input;
+}
+
+.teaxtarea {
+  @extend .text-input;
+  height: 10rem;
+}

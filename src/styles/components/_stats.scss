@@ -1,0 +1,27 @@
+.stats-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    @media (min-width: $desktop-breakpoint) {
+        flex-direction: row;
+    }
+
+    p {
+        margin: 0 0 $xs-size 0;
+    }
+}
+
+.stats-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 300px;
+    max-width: 600px;
+
+}
+
+.stats-list {
+    display: flex;
+    flex-direction: column;
+}

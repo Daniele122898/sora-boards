@@ -1,0 +1,197 @@
+.leaderboard-entry {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (min-width: $desktop-breakpoint) {
+        flex-direction: row;
+    }
+}
+
+.leaderboard__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.leaderboard__image {
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+}
+
+.leaderboard__item {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    small {
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+}
+
+.leaderboard-word-break {
+    word-break: break-all;
+}
+
+.leaderboard__center {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.list-group-shadow {
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(50, 50, 50, 0.4);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(50, 50, 50, 0.4);
+    box-shadow: 3px 3px 10px 0px rgba(50, 50, 50, 0.4);
+    border-radius: 0;
+}
+
+.leaderboard-group {
+    padding-right: $l-size;
+}
+
+.username {
+    word-wrap: break-word;
+}
+
+.progress {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    font-size: .75rem;
+    background-color: #e9ecef;
+    border-radius: .25rem;
+}
+
+.progress-bar-striped {
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 1rem 1rem;
+}
+
+.progress-bar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+    transition: width .6s ease;
+}
+
+.progress-bar-sora {
+    background-color: #bd3a7f;
+}
+
+.width-10 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 10%;
+    }
+}
+
+.width-15 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 15%;
+    }
+}
+
+.width-18 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 18%;
+    }
+}
+
+.width-20 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 20%;
+    }
+}
+
+.width-25 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 25%;
+    }
+}
+
+.width-30 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 30%;
+    }
+}
+
+.width-40 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 40%;
+    }
+}
+
+.width-50 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 50%;
+    }
+}
+
+.width-55 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 55%;
+    }
+}
+
+.width-60 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 60%;
+    }
+}
+
+.width-70 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 70%;
+    }
+}
+
+.width-80 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 80%;
+    }
+}
+
+.width-90 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 90%;
+    }
+}
+
+.width-100 {
+    width: 100%;
+    @media (min-width: $desktop-breakpoint) {
+        width: 100%;
+    }
+}
