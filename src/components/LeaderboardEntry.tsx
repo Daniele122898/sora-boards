@@ -57,7 +57,7 @@ const LeaderboardEntry = ({user}: {user: User}) => {
                         </div>
                     </div>
                 </div>  
-                <div className="leaderboard__item" style={{width: "18%"}}>
+                <div className="leaderboard__item width-18">
                     <h2>
                         Level {level}
                     </h2>
