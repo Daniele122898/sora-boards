@@ -12,8 +12,12 @@ const getRarityStringFromInt = (rarity: Number): string => {
             return "Epic";
         case 99: 
             return "Ultimate Waifu";
-        case 98: 
-            return "Special";
+        case 5:
+            return "Halloween";
+        case 6:
+            return "Christmas";
+        case 7:
+            return "Summer";
         default:
             return "Common";
     }
