@@ -125,14 +125,7 @@ getGlobalLeaderboard();
 const globalJob = schedule.scheduleJob("*/30 * * * *", getGlobalLeaderboard);
 
 router.get('/getAllWaifus', (req,res) => {
-    axios.get(`${soraApi}/GetAllWaifus/`)
-    .then(r => {
-        res.json(r.data);
-    })
-    .catch(e => {
-        console.log(e);
-        res.status(500).send("Couldn't reach Sora Api.");
-    });
+    res.json(allWaifusCache);
 });
 
 router.get('/getUserWaifus/:userId', (req,res) => {

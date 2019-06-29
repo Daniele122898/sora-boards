@@ -72,7 +72,7 @@ class GlobalLeaderboard extends React.Component<Props, State> {
                 <strong>{"cooldown "}</strong>
                 {"that will remain undisclosed. Spamming many and "}
                 <strong>{"short messages also leads to less EXP gain "}</strong>
-                {"thus good behaviour is favored!"}
+                {"thus good behaviour is favored! This list is updated every 30 minutes"}
                 </p>
             }
         />
