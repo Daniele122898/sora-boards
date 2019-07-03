@@ -10,7 +10,8 @@ import {
 interface Props {
     data: any[];
     pageModulo: number;
-    mapper: (data: any) => ReactChild; 
+    mapper: (data: any) => ReactChild;
+    wrap?: number;
 }
 
 interface State {
