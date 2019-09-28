@@ -35,7 +35,8 @@ class WaifuList extends React.Component<Props, State> {
     }
     
     searchFilter(el: Waifu, search: string) {
-        return (el.name.toLowerCase().includes(search.toLowerCase()));
+        return (el.name.toLowerCase().includes(search.toLowerCase()) || 
+                    el.id.includes(search));
     }
 
     dataReturn = (waifus: Waifu[]) => {
@@ -80,7 +81,7 @@ class WaifuList extends React.Component<Props, State> {
                         data={this.props.waifus}
                         searchFilter={this.searchFilter}
                         dataReturn={this.dataReturn}
-                        searchTextPlaceHolder="Waifu name to search..."
+                        searchTextPlaceHolder="Waifu name or id to search..."
                     />
                     <Pager 
                       data={this.state.waifus}
