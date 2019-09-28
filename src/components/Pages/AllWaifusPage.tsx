@@ -127,8 +127,7 @@ class AllWaifusPage extends React.Component<Props, State> {
 
   onModalClose = () => {
     this.setState(() => ({
-        modalOpen: false,
-        clickedImageUrl: ''
+        modalOpen: false
     }));
   }
 
