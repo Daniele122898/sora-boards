@@ -36,7 +36,7 @@ class WaifuList extends React.Component<Props, State> {
     
     searchFilter(el: Waifu, search: string) {
         return (el.name.toLowerCase().includes(search.toLowerCase()) || 
-                    el.id.includes(search));
+                    el.id.toString().includes(search));
     }
 
     dataReturn = (waifus: Waifu[]) => {
