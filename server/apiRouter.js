@@ -3,7 +3,7 @@ const axios = require('axios');
 const schedule = require('node-schedule');
 
 const soraPort = process.env.NODE_ENV === 'production' ? 8087 : 8187;
-const numShards = process.env.NODE_ENV === 'production' ? 2 : 1;
+const numShards = process.env.NODE_ENV === 'production' ? 6 : 1;
 
 const soraApi = `http://localhost:${soraPort}/api/SoraApi`;
 const waifuApi = `http://localhost:${soraPort}/api/Waifu`;
