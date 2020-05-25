@@ -2,7 +2,7 @@ const router = require('express').Router();
 const axios = require('axios');
 const schedule = require('node-schedule');
 
-const soraPort = process.env.NODE_ENV === 'production' ? 9000 : 9100;
+const soraPort = process.env.NODE_ENV === 'production' ? 8000 : 8100;
 const numShards = process.env.NODE_ENV === 'production' ? 3 : 1;
 const endPoint = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${soraPort}/api`;
 
@@ -57,6 +57,7 @@ const getStats = async () => {
 
 getStats();
 const statsJob = schedule.scheduleJob("*/5 * * * *", getStats);
+
 
 // All waifus cache
 const getAllWaifus = () => {
