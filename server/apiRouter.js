@@ -2,23 +2,22 @@ const router = require('express').Router();
 const axios = require('axios');
 const schedule = require('node-schedule');
 
-const soraPort = process.env.NODE_ENV === 'production' ? 8087 : 8187;
-const numShards = process.env.NODE_ENV === 'production' ? 6 : 1;
+const soraPort = process.env.NODE_ENV === 'production' ? 9000 : 9100;
+const numShards = process.env.NODE_ENV === 'production' ? 3 : 1;
+const endPoint = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${soraPort}/api`;
 
-const soraApi = `http://localhost:${soraPort}/api/SoraApi`;
-const waifuApi = `http://localhost:${soraPort}/api/Waifu`;
-const getApiPort = (port) => `http://localhost:${port}/api/SoraApi`;
+const getApiPort = (port) => `http://localhost:${port}/api`;
 
 let statsCache = {};
 let allWaifusCache = {};
 let globalLeaderCache = [];
 
-const getStats = () => {
+const getStats = async () => {
     console.log("Populating stats cache...");
     const promises = [];
 
     for (let i=0; i<numShards; i++) {
-        const p = axios.get(`${getApiPort(soraPort+i)}/GetSoraStats/`)
+        const p = axios.get(`${getApiPort(soraPort+i)}/stats`)
         promises.push(p);
     }
 
@@ -30,22 +29,22 @@ const getStats = () => {
         userCount: 0,
     };
 
-    Promise.all(promises)
-    .then(responses => {
-        responses.forEach(({ data }, index) => {
-            if (index == 0) {
-                result.uptime = data.uptime;
-                result.shardNum = data.shardNum;
-                result.version = data.version;
-            }
+    const results = await Promise.all(promises.map(p => p.catch(e => e)));
+    const validResults = results.filter(result => !(result instanceof Error));
 
-            const msgRec = BigInt(data.messagesReceived);
-            result.messagesReceived += msgRec;
-            result.commandsExecuted += data.commandsExecuted;
-            result.ping += data.ping;
-            result.guildCount += data.guildCount;
-            result.userCount += data.userCount;
-        });
+    validResults.forEach(({ data }, index) => {
+        if (index === 0) {
+            result.uptime = data.uptime;
+            result.shardNum = data.shardNum;
+            result.version = data.version;
+        }
+
+        const msgRec = BigInt(data.messagesReceived);
+        result.messagesReceived += msgRec;
+        result.commandsExecuted += data.commandsExecuted;
+        result.ping += data.ping;
+        result.guildCount += data.guildCount;
+        result.userCount += data.userCount;
 
         // last changes to the responses
         result.ping = Math.round(result.ping / numShards);
@@ -53,18 +52,16 @@ const getStats = () => {
 
         statsCache = result;
         console.log("Finished populating stats cache");
-    })
-    .catch(e => {
-        console.log(e);
     });
 }
+
 getStats();
 const statsJob = schedule.scheduleJob("*/5 * * * *", getStats);
 
 // All waifus cache
-getAllWaifus = () => {
+const getAllWaifus = () => {
     console.log("Populating all waifus cache...");
-    axios.get(`${waifuApi}/GetAllWaifus/`)
+    axios.get(`${endPoint}/waifus`)
     .then(r => {
         allWaifusCache = r.data;
         console.log("Finished populating all waifus cache");
@@ -77,51 +74,50 @@ getAllWaifus();
 const waifuJob = schedule.scheduleJob("*/5 * * * *", getAllWaifus);
 
 // Global leaderboard
-getGlobalLeaderboard = () => {
+const getGlobalLeaderboard = async () => {
     console.log("Populating global leaderboard cache...");
     const promises = [];
 
     for (let i=0; i<numShards; i++) {
-        const p = axios.get(`${getApiPort(soraPort+i)}/GetGlobalLeaderboard/`)
+        const p = axios.get(`${getApiPort(soraPort+i)}/leaderboard/global`)
         promises.push(p);
     }
 
     const userMap = new Map();
     let users = [];
 
-    Promise.all(promises)
-    .then(responses => {
-        responses.forEach(({ data }) => {
-            const list = data.ranks;
-            list.forEach((user) => {
-                if (!userMap.has(user.userId)) {
-                    // add it to map and the array
-                    userMap.set(user.userId, true);
-                    users.push(user);
-                }
-            });
-        });
-        // now sort the entire array with unique users
-        users.sort((user1, user2) => {
-            return user1.exp >= user2.exp ? -1 : 1;
-        });
-        // slice it so its only 100 users
-        if (users.length > 100 ) {
-            users = users.slice(0, 100);
-        }
-        // reset the ranks
-        for (let i=0; i<users.length; i++) {
-            users[i].rank = i+1;
-        }
-        // set the cache
-        globalLeaderCache = users;
+    const results = await Promise.all(promises.map(p => p.catch(e => e)));
+    const validResults = results.filter(result => !(result instanceof Error));
 
-        console.log("Finished populating global leaderboard cache");
-    })
-    .catch(e => {
-        console.log(e);
+    validResults.forEach(({ data }) => {
+        const list = data.ranks;
+        list.forEach((user) => {
+            if (!userMap.has(user.userId)) {
+                // add it to map and the array
+                userMap.set(user.userId, true);
+                users.push(user);
+            }
+        });
     });
+
+    // now sort the entire array with unique users
+    users.sort((user1, user2) => {
+        return user1.exp >= user2.exp ? -1 : 1;
+    });
+    // slice it so its only 100 users
+    if (users.length > 100 ) {
+        users = users.slice(0, 100);
+    }
+    // reset the ranks
+    for (let i=0; i<users.length; i++) {
+        users[i].rank = i+1;
+    }
+    // set the cache
+    globalLeaderCache = users;
+
+    console.log("Finished populating global leaderboard cache");
 }
+
 getGlobalLeaderboard();
 const globalJob = schedule.scheduleJob("*/30 * * * *", getGlobalLeaderboard);
 
@@ -131,7 +127,7 @@ router.get('/getAllWaifus', (req,res) => {
 
 router.get('/getUserWaifus/:userId', (req,res) => {
     const userId = req.params.userId;
-    axios.get(`${waifuApi}/GetUserWaifus/${userId}`)
+    axios.get(`${endPoint}/waifus/user/${userId}`)
     .then(r => {
         res.json(r.data);
     })
@@ -145,7 +141,7 @@ router.get('/getLeaderboard/:id', (req,res) => {
     const guildId = req.params.id;
     const shardId = ~~((guildId / 4194304) % numShards);
     const port = soraPort+shardId;
-    axios.get(`${getApiPort(port)}/GetGuildLeaderboard/${guildId}`)
+    axios.get(`${getApiPort(port)}/leaderboard/${guildId}`)
     .then(r => {
         res.json(r.data);
     })
