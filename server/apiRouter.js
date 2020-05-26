@@ -152,6 +152,17 @@ router.get('/getLeaderboard/:id', (req,res) => {
     });
 });
 
+router.get('/getRarities', (req, res) => {
+    axios.get(`${endPoint}/waifus/rarities`)
+        .then(r => {
+           res.json(r.data);
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500).send("Couldn't reach Sora Api.");
+        });
+});
+
 router.get('/getSoraStats', (req,res) => {
     res.json(statsCache);
 });
