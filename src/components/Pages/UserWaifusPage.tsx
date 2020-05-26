@@ -1,9 +1,9 @@
 import React, { ReactChild } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { ApplicationState, UserWaifuApiResponse, Waifu } from '../../store';
+import {ApplicationState, UserWaifuApiResponse, Waifu, WaifuRarity} from '../../store';
 import { AnyThunkDispatch } from '../../types';
-import { getUserWaifus } from '../../actions/waifuActions';
+import {getUserWaifus, getWaifuRarities} from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
 import PageHeader from '../PageHeader';
 import { SORA_IMG } from '../../constants';
@@ -20,6 +20,8 @@ interface MatchParams {
 interface Props extends RouteComponentProps<MatchParams>{
     userWaifus: UserWaifuApiResponse | undefined;
     getUserWaifus: (userId: string) => any;
+    startGetRarities(): any;
+    rarities: WaifuRarity[];
 }
 
 interface State {
@@ -46,14 +48,26 @@ class UserWaifusPage extends React.Component<Props, State> {
         // we didnt fetch those waifus yet so we call a fetch
         if (this.props.userWaifus == undefined) {
             // fetch
-            this.props.getUserWaifus(this.props.match.params.userId)
-            .then((resp: ApiResponse) => {
+            this.props.startGetRarities().then((resp: ApiResponse) => {
                 if (resp.error != undefined) {
-                    // do error handling
-                    this.setState(()=> ({
+                    // handle error
+                    this.setState(() => ({
                         error: resp.error ? resp.error : ''
                     }));
+                    return;
                 }
+
+                // Else fetch waifus
+                this.props.getUserWaifus(this.props.match.params.userId)
+                    .then((resp: ApiResponse) => {
+                        if (resp.error != undefined) {
+                            // do error handling
+                            this.setState(() => ({
+                                error: resp.error ? resp.error : ''
+                            }));
+                        }
+                    });
+
             });
         }
     }
@@ -89,7 +103,7 @@ class UserWaifusPage extends React.Component<Props, State> {
           <Card
             imageUrl={waifu.imageUrl}
             name={waifu.name}
-            rarity={getRarityStringFromInt(waifu.rarity)}
+            rarity={getRarityStringFromInt(waifu.rarity, this.props.rarities)}
             id={waifu.id}
             enableIdFooter={true}
             count={waifu.count}
@@ -101,7 +115,6 @@ class UserWaifusPage extends React.Component<Props, State> {
         
         const user = this.props.userWaifus;
         const data: UserWaifuApiResponse = {
-            success: user ? user.success : false,
             username: user ? (user.username ? user.username : "Unknown") : "Unknown",
             avatarUrl: user ? (user.avatarUrl ? user.avatarUrl: SORA_IMG) : SORA_IMG,
             waifus: user ? user.waifus : []
@@ -185,11 +198,13 @@ class UserWaifusPage extends React.Component<Props, State> {
 }
 
 const mapStateToProps = ({ waifuState }: ApplicationState, ownProps: any) => ({
-    userWaifus: waifuState.userWaifus.get(ownProps.match.params.userId)
+    userWaifus: waifuState.userWaifus.get(ownProps.match.params.userId),
+    rarities: waifuState.rarities,
 });
 
 const mapDispatchToProps = (dispatch: AnyThunkDispatch<{}>) => ({
-    getUserWaifus: (userId: string) => dispatch(getUserWaifus(userId))
+    getUserWaifus: (userId: string) => dispatch(getUserWaifus(userId)),
+    startGetRarities: () => dispatch(getWaifuRarities()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserWaifusPage);

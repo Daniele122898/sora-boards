@@ -28,7 +28,6 @@ export interface WaifuRarity {
 }
 
 export interface UserWaifuApiResponse {
-    success: boolean;
     username: string;
     avatarUrl: string;
     waifus: Waifu[];

@@ -72,6 +72,7 @@ export const getUserWaifus = (userId: string): ThunkResult<Promise<ApiResponse>>
                 error: resp.data != undefined && typeof resp.data == "string" ? resp.data: "Couldn't reach Sora Api"
             }
         }
+
         const data: UserWaifuApiResponse = resp.data;
 
         dispatch(setUserWaifus(data, userId));
@@ -114,22 +115,25 @@ export const getWaifuRarities = (): ThunkResult<Promise<ApiResponse>> => {
 export const getAllWaifus = (): ThunkResult<Promise<ApiResponse>> => {
     return async (dispatch): Promise<ApiResponse> => {
         let resp: AxiosResponse<any>;
-
+        console.log("HELLO :D");
         try {
             resp = await axios.get('/api/getAllWaifus');
         } catch (error) {
+            console.error(error);
             return {
                 error: "Couldn't reach Sora Api"
             }
         }
 
         if (resp == undefined || resp.data == undefined) {
+            console.error("Error fetching all waifus. Data undefined")
             return {
                 error: "Couldn't reach backend... You shouldn't see this website online lol."
             };
         }
 
         if (resp.status !== 200) {
+            console.error("Error fetching all waifus. Status came back as not ok!")
             return {
                 error: resp.data != undefined ? resp.data: "Couldn't reach Sora Api"
             }
@@ -137,7 +141,7 @@ export const getAllWaifus = (): ThunkResult<Promise<ApiResponse>> => {
 
         batch(() => {
             dispatch(setFirstFetch(true));
-            dispatch(setAllWaifus(resp.data.waifus));
+            dispatch(setAllWaifus(resp.data));
         });
 
         return {};
