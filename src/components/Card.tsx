@@ -1,26 +1,11 @@
 import React, { ReactChild } from 'react';
+import {WaifuRarity} from "../store";
 
-const getRarityStringFromInt = (rarity: Number): string => {
-    switch(rarity) {
-        case 0: 
-            return "Common";
-        case 1: 
-            return "Uncommon";
-        case 2: 
-            return "Rare";
-        case 3: 
-            return "Epic";
-        case 99: 
-            return "Ultimate Waifu";
-        case 5:
-            return "Halloween";
-        case 6:
-            return "Christmas";
-        case 7:
-            return "Summer";
-        default:
-            return "Common";
-    }
+const getRarityStringFromInt = (rarity: Number, rarities: WaifuRarity[]): string => {
+    const rar = rarities.find(x=> x.value === rarity)
+    if (rar == undefined)
+        return "Unknown";
+    return rar.name;
 };
 
 const Card = ({imageUrl, name, rarity, id, enableIdFooter = false, children, count = 0}: 

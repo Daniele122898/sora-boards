@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import Card, { getRarityStringFromInt } from '../Card';
 import PageHeader from '../PageHeader';
 import { SORA_IMG } from '../../constants/index';
-import { ApplicationState, Waifu } from '../../store/index';
+import {ApplicationState, Waifu, WaifuRarity} from '../../store/index';
 import { AnyThunkDispatch } from '../../types/index';
-import { getAllWaifus } from '../../actions/waifuActions';
+import {getAllWaifus, getWaifuRarities} from '../../actions/waifuActions';
 import LoadingPage from './LoadingPage';
 import Banner from '../Banner';
 import WaifuList from '../WaifuList';
@@ -16,6 +16,8 @@ interface Props {
   allwaifus: Waifu[];
   firstFetch: boolean;
   startGetAllWaifus(): any;
+  startGetRarities(): any;
+  rarities: WaifuRarity[];
 }
 
 interface State {
@@ -41,12 +43,24 @@ class AllWaifusPage extends React.Component<Props, State> {
     // check if we already fetched. if not then we fetch
     if (this.props.firstFetch) return;
     // fetch
-    this.props.startGetAllWaifus().then((resp: ApiResponse) => {
-      if (resp.error == undefined) return;
-      // else handle error. Because otherwise it will just load lul
-      this.setState(()=> ({
-        error: resp.error ? resp.error : ''
-      }));
+    this.props.startGetRarities().then((resp: ApiResponse) => {
+      if (resp.error != undefined) {
+        // handle error
+        this.setState(()=> ({
+          error: resp.error ? resp.error : ''
+        }));
+        return;
+      }
+
+      // Else fetch waifus
+      this.props.startGetAllWaifus().then((resp: ApiResponse) => {
+        if (resp.error == undefined) return;
+        // else handle error. Because otherwise it will just load lul
+        this.setState(()=> ({
+          error: resp.error ? resp.error : ''
+        }));
+      });
+
     });
   }
 
@@ -86,7 +100,7 @@ class AllWaifusPage extends React.Component<Props, State> {
       <Card
         imageUrl={waifu.imageUrl}
         name={waifu.name}
-        rarity={getRarityStringFromInt(waifu.rarity)}
+        rarity={getRarityStringFromInt(waifu.rarity, this.props.rarities)}
         id={waifu.id}
         enableIdFooter={true}
       />
@@ -138,11 +152,13 @@ class AllWaifusPage extends React.Component<Props, State> {
 
 const mapStateToProps = ({waifuState}: ApplicationState) => ({
   allwaifus: waifuState.allWaifus,
-  firstFetch: waifuState.firstFetch
+  firstFetch: waifuState.firstFetch,
+  rarities: waifuState.rarities,
 });
 
 const mapDispatchToProps = (dispatch: AnyThunkDispatch<{}>) => ({
-  startGetAllWaifus: () => dispatch(getAllWaifus())
+  startGetAllWaifus: () => dispatch(getAllWaifus()),
+  startGetRarities: () => dispatch(getWaifuRarities()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllWaifusPage);

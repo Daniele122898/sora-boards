@@ -19,6 +19,12 @@ export interface WaifuState {
     allWaifus: Waifu[];
     userWaifus: Map<string, UserWaifuApiResponse>;
     firstFetch: boolean;
+    rarities: WaifuRarity[];
+}
+
+export interface WaifuRarity {
+    name: string;
+    value: number;
 }
 
 export interface UserWaifuApiResponse {
