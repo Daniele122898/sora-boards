@@ -4,9 +4,15 @@ const schedule = require('node-schedule');
 
 const soraPort = process.env.NODE_ENV === 'production' ? 8000 : 8100;
 const numShards = process.env.NODE_ENV === 'production' ? 3 : 1;
-const endPoint = process.env.NODE_ENV === 'production' ? '' : `http://localhost:${soraPort}/api`;
+const endPoint = process.env.NODE_ENV === 'production' ? 'http://api.sorabot.pw/bot/0/api' : `http://localhost:${soraPort}/api`;
 
-const getApiPort = (port) => `http://localhost:${port}/api`;
+const getShardedUrl = (shardId) => {
+    if (process.env.NODE_ENV === 'production') {
+        return `http://api.sorabot.pw/bot/${shardId}/api`;
+    } else {
+        return `http://localhost:${(soraPort + shardId)}/api`
+    }
+};
 
 let statsCache = {};
 let allWaifusCache = {};
@@ -17,7 +23,7 @@ const getStats = async () => {
     const promises = [];
 
     for (let i=0; i<numShards; i++) {
-        const p = axios.get(`${getApiPort(soraPort+i)}/stats`)
+        const p = axios.get(`${getShardedUrl(i)}/stats`)
         promises.push(p);
     }
 
@@ -80,7 +86,7 @@ const getGlobalLeaderboard = async () => {
     const promises = [];
 
     for (let i=0; i<numShards; i++) {
-        const p = axios.get(`${getApiPort(soraPort+i)}/leaderboard/global`)
+        const p = axios.get(`${getShardedUrl(i)}/leaderboard/global`)
         promises.push(p);
     }
 
@@ -141,8 +147,7 @@ router.get('/getUserWaifus/:userId', (req,res) => {
 router.get('/getLeaderboard/:id', (req,res) => {
     const guildId = req.params.id;
     const shardId = ~~((guildId / 4194304) % numShards);
-    const port = soraPort+shardId;
-    axios.get(`${getApiPort(port)}/leaderboard/${guildId}`)
+    axios.get(`${getShardedUrl(shardId)}/leaderboard/${guildId}`)
     .then(r => {
         res.json(r.data);
     })
