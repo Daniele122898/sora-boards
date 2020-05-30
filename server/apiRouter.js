@@ -28,7 +28,7 @@ const getStats = async () => {
     }
 
     let result = {
-        messagesReceived: 0n,
+        messagesReceived: 0,
         commandsExecuted: 0,
         ping: 0,
         guildCount: 0,
