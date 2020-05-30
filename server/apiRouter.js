@@ -51,14 +51,14 @@ const getStats = async () => {
         result.ping += data.ping;
         result.guildCount += data.guildCount;
         result.userCount += data.userCount;
-
-        // last changes to the responses
-        result.ping = Math.round(result.ping / numShards);
-        result.messagesReceived = result.messagesReceived +"";
-
-        statsCache = result;
-        console.log("Finished populating stats cache");
     });
+
+    // last changes to the responses
+    result.ping = Math.round(result.ping / numShards);
+    result.messagesReceived = result.messagesReceived +"";
+
+    statsCache = result;
+    console.log("Finished populating stats cache");
 }
 
 getStats();
