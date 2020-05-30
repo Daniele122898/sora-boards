@@ -45,7 +45,7 @@ const getStats = async () => {
             result.version = data.version;
         }
 
-        const msgRec = BigInt(data.messagesReceived);
+        const msgRec = Number.parseInt(data.messagesReceived);
         result.messagesReceived += msgRec;
         result.commandsExecuted += data.commandsExecuted;
         result.ping += data.ping;
