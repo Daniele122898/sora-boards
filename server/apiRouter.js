@@ -28,7 +28,7 @@ const getStats = async () => {
     }
 
     let result = {
-        messagesReceived: 0,
+        messagesReceived: 0n,
         commandsExecuted: 0,
         ping: 0,
         guildCount: 0,
@@ -45,7 +45,7 @@ const getStats = async () => {
             result.version = data.version;
         }
 
-        const msgRec = Number.parseInt(data.messagesReceived);
+        const msgRec = BigInt(data.messagesReceived);
         result.messagesReceived += msgRec;
         result.commandsExecuted += data.commandsExecuted;
         result.ping += data.ping;
