@@ -126,7 +126,7 @@ const getGlobalLeaderboard = async () => {
 }
 
 getGlobalLeaderboard();
-const globalJob = schedule.scheduleJob("*/30 * * * *", getGlobalLeaderboard);
+const globalJob = schedule.scheduleJob("*/10 * * * *", getGlobalLeaderboard);
 
 router.get('/getAllWaifus', (req,res) => {
     res.json(allWaifusCache);
