@@ -144,6 +144,25 @@ router.get('/getUserWaifus/:userId', (req,res) => {
     });
 });
 
+router.get('/health', (req, res) => {
+    const desc = 'Sora companion website that shows global leaderboard, all available waifus as well as which waifus a user has and local guild user levels.';
+    if ((!globalLeaderCache || globalLeaderCache.length <0) || (!allWaifusCache)) {
+        res.json({
+            identifier: 'Sora Boards',
+            status: 2,
+            description: desc,
+            error: 'Some caches could not be populated. Probably because some or all Sora shards are dead.'
+        });
+    } else {
+        res.json({
+            identifier: 'Sora Boards',
+            status: 0,
+            description: desc
+        });
+    }
+
+});
+
 router.get('/getLeaderboard/:id', (req,res) => {
     const guildId = req.params.id;
     const shardId = ~~((guildId / 4194304) % numShards);

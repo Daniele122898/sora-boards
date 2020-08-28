@@ -104,9 +104,7 @@ export const getWaifuRarities = (): ThunkResult<Promise<ApiResponse>> => {
             }
         }
 
-        batch(() => {
-            dispatch(setWaifuRarities(resp.data));
-        });
+        dispatch(setWaifuRarities(resp.data));
 
         return {};
     }
